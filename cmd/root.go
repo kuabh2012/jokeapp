@@ -30,8 +30,8 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "jokeapp",
-	Short: "This app will give random jokes",
-	Long:  `A cli tool for get random jokes`,
+	Short: "This app will give next jokes",
+	Long:  `A cli tool for get next jokes`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },

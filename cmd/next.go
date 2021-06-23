@@ -27,26 +27,26 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// randomCmd represents the random command
-var randomCmd = &cobra.Command{
-	Use:   "random",
-	Short: "Get a random dad joke",
-	Long:  `This command fetches a random dad joke from the icanhazdadjoke api`,
+// nextCmd represents the next command
+var nextCmd = &cobra.Command{
+	Use:   "next",
+	Short: "Get a next dad joke",
+	Long:  `This command fetches a next dad joke from the icanhazdadjoke api`,
 	Run: func(cmd *cobra.Command, args []string) {
 		jokeTerm, _ := cmd.Flags().GetString("term")
 
 		if jokeTerm != "" {
-			getRandomJokeWithTerm(jokeTerm)
+			getnextJokeWithTerm(jokeTerm)
 		} else {
-			getRandomJoke()
+			getnextJoke()
 		}
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(randomCmd)
+	rootCmd.AddCommand(nextCmd)
 
-	randomCmd.PersistentFlags().String("term", "", "A search term for a dad joke")
+	nextCmd.PersistentFlags().String("term", "", "A search term for a dad joke")
 }
 
 type Joke struct {
@@ -62,7 +62,7 @@ type SearchResult struct {
 	TotalJokes int             `json:"total_jokes"`
 }
 
-func getRandomJoke() {
+func getnextJoke() {
 	url := "https://icanhazdadjoke.com/"
 	responseBytes := getJokeData(url)
 	joke := Joke{}
@@ -74,9 +74,9 @@ func getRandomJoke() {
 	fmt.Println(string(joke.Joke))
 }
 
-func getRandomJokeWithTerm(jokeTerm string) {
+func getnextJokeWithTerm(jokeTerm string) {
 	total, results := getJokeDataWithTerm(jokeTerm)
-	randomiseJokeList(total, results)
+	nextiseJokeList(total, results)
 }
 
 func getJokeData(baseAPI string) []byte {
@@ -123,7 +123,7 @@ func getJokeDataWithTerm(jokeTerm string) (totalJokes int, jokeList []Joke) {
 	return jokeListRaw.TotalJokes, jokes
 }
 
-func randomiseJokeList(length int, jokeList []Joke) {
+func nextiseJokeList(length int, jokeList []Joke) {
 	rand.Seed(time.Now().Unix())
 
 	min := 0
@@ -133,7 +133,7 @@ func randomiseJokeList(length int, jokeList []Joke) {
 		err := fmt.Errorf("No jokes found with this term")
 		fmt.Println(err.Error())
 	} else {
-		randomNum := min + rand.Intn(max-min)
-		fmt.Println(jokeList[randomNum].Joke)
+		nextNum := min + rand.Intn(max-min)
+		fmt.Println(jokeList[nextNum].Joke)
 	}
 }
